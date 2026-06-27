@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 2: The Magic of Middleware</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <h1>Lesson 2: The Magic of Middleware</h1>
+
+  <p>Now that you know the server is just a program waiting for requests, let's talk about how it actually handles them. In Express, this is all about <strong style="color: #d32f2f;">Middleware</strong>.</p>
+
+  <div class="callout">
+    <strong style="color: #d32f2f;">What is Middleware?</strong>
+    Imagine a request is a person walking through a series of security checkpoints before reaching the main office. Each checkpoint (middleware) can:
+    <ul>
+      <li>Inspect the person (Read the request)</li>
+      <li>Change something about them (Modify the request)</li>
+      <li>Kick them out (Send a response immediately)</li>
+      <li>Or just wave them through to the next checkpoint (Call <code class="cursor-pointer">next()</code>)</li>
+    </ul>
+  </div>
+
+  <h2 style="border-bottom: 2px solid #eee; padding-bottom: 0.5rem;">1. The Pipeline Pattern</h2>
+  <p>In your <code class="cursor-pointer">index.ts</code>, you see a lot of <code class="cursor-pointer">app.use()</code> calls. Every time you use <code class="cursor-pointer">app.use()</code>, you are adding a new checkpoint to the pipeline.</p>
+
+  <pre><code>// The Request Pipeline in your code:
+1. CORS Middleware (Check: Is this React app allowed to talk to me?)
+2. Rate Limiter (Check: Is this IP sending too many requests?)
+3. JSON Parser (Action: Convert the raw text body into a JS object)
+4. Route Handlers (The destination: /api/v1/search, etc.)</code></pre>
+
+  <h2 style="border-bottom: 2px solid #eee; padding-bottom: 0.5rem;">2. The Order Matters</h2>
+  <p>Because middleware is a pipeline, <strong>order is everything</strong>. If you put the JSON parser <em>after</em> your route handler, the route handler won't be able to read the request body because it hasn't been parsed yet!</p>
+
+  <div class="win">
+    <strong style="color: #2e7d32;">Real-world observation:</strong>
+    Look at your code. The <code class="cursor-pointer">limiter</code> is applied to <code class="cursor-pointer">"/api"</code>. This means any request to <code class="cursor-pointer">/status</code> skips the rate limit entirely, but any request to <code class="cursor-pointer">/api/v1/search</code> must pass through the limiter first.
+  </div>
+
+  <h2 style="border-bottom: 2px solid #eee; padding-bottom: 0.5rem;">3. `app.get` vs `app.use`</h2>
+  <ul>
+    <li><strong class="cursor-pointer"><code>app.use()</code>:</strong> General purpose. It usually applies to a range of URLs (or all of them) and is typically used for setup/security/parsing.</li>
+    <li><strong class="cursor-pointer"><code>app.get()</code>:</strong> Specific. It only triggers when the exact URL and the <code class="cursor-pointer">GET</code> method match.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem;">Recommended Reading</h3>
+  <p>Read the <a href="https://expressjs.com/en/guide/routing.html#middleware">Express Middleware Guide</a>. Pay close attention to the <code class="cursor-pointer">req, res, next</code> arguments.</p>
+
+  <hr style="margin-top: 3rem;">
+  <p><strong>Your Challenge:</strong> In your current <code class="cursor-pointer">index.ts</code>, the <code class="cursor-pointer">express.json()</code> middleware is placed <em>after</em> the <code class="cursor-pointer">limiter</code> and <code class="cursor-pointer">cors</code>. Why is this a good (or bad) design? Ask me if you're not sure!</p>
+  <p><em>Questions? Ask your teacher (Claude) to clarify how <code class="cursor-pointer">next()</code> works or how to create your own custom middleware.</em></p>
+</body
+</html>

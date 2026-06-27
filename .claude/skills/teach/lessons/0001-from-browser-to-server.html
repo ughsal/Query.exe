@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 1: From Browser to Server</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <h1>Lesson 1: From Browser to Server</h1>
+
+  <p>Since you know <strong>React</strong> and <strong>Next.js</strong>, you're already halfway there. But there's a fundamental shift in how code executes when you move from the frontend to the backend.</p>
+
+  <div class="callout">
+    <strong>The Core Difference:</strong> In React, your code runs in the user's browser (Client). In Node.js, your code runs on a computer (Server) that stays on 24/7, waiting for someone to send it a request.
+  </div>
+
+  <h2>What is Node.js?</h2>
+  <p>Node.js is not a language; it's a <strong>runtime</strong>. It takes the V8 engine (the thing that powers Chrome) and lets it run on your machine instead of inside a browser. This means you can use JS/TS to interact with the operating system: read files, talk to databases, and listen to network ports.</p>
+
+  <h2>Enter Express.js</h2>
+  <p>Node.js by itself is quite low-level. <strong>Express</strong> is a framework built on top of Node.js that simplifies the process of creating a web server. If Node.js is the engine, Express is the dashboard and steering wheel.</p>
+
+  <p>In your <code>index.ts</code>, you see: <code>const app = express();</code>. This creates an Express application object that handles the routing of incoming requests.</p>
+
+  <h2>The Request-Response Cycle</h2>
+  <p>Everything in Express revolves around this loop:</p>
+  <ol>
+    <li><strong>Request (req):</strong> A client (like a React app) sends a request to a URL (e.g., <code>GET /status</code>).</li>
+    <li><strong>Processing:</strong> Express looks at the URL and runs the corresponding function.</li>
+    <li><strong>Response (res):</strong> The server sends back data (usually JSON) and a status code (e.g., 200 OK).</li>
+  </ol>
+
+  <div class="win">
+    <strong>Your First Win:</strong> You can now look at <code>app.get("/status", ...)</code> in your code and realize it's just a function that waits for a <code>GET</code> request to <code>/status</code> and sends back a JSON response.
+  </div>
+
+  <h3>Recommended Reading</h3>
+  <p>Read the <a href="https://expressjs.com/en/guide/routing.html">Express Routing Guide</a> to understand how the server decides which code to run for which URL.</p>
+
+  <hr>
+  <p><em>Questions? Ask your teacher (Claude) about the difference between <code>req</code> and <code>res</code> or why we need a server at all!</em></p>
+</body>
+</html>
